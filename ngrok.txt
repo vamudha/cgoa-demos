@@ -1,0 +1,7 @@
+for webhook :
+
+brew install ngrok
+
+ngrok config add-authtoken <your-token>
+
+ngrok http https://localhost:8080
