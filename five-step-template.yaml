@@ -1,0 +1,54 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: five-step-workflow-
+  namespace: argo
+spec:
+  entrypoint: five-step-pipeline
+
+  templates:
+    - name: five-step-pipeline
+      steps:
+        - - name: step-1
+            template: print-message
+            arguments:
+              parameters:
+                - name: message
+                  value: "Step 1: Starting workflow"
+
+        - - name: step-2
+            template: print-message
+            arguments:
+              parameters:
+                - name: message
+                  value: "Step 2: Doing some processing"
+
+        - - name: step-3
+            template: print-message
+            arguments:
+              parameters:
+                - name: message
+                  value: "Step 3: Almost halfway there"
+
+        - - name: step-4
+            template: print-message
+            arguments:
+              parameters:
+                - name: message
+                  value: "Step 4: Wrapping up tasks"
+
+        - - name: step-5
+            template: print-message
+            arguments:
+              parameters:
+                - name: message
+                  value: "Step 5: Workflow complete!"
+
+    - name: print-message
+      inputs:
+        parameters:
+          - name: message
+      container:
+        image: alpine:3.18
+        command: [sh, -c]
+        args: ["echo {{inputs.parameters.message}}"]
